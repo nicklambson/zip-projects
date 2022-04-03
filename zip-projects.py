@@ -42,6 +42,7 @@ PARENT_FOLDER = Path(filedialog.askdirectory(title="Please select a parent folde
 
 total_bytes_saved = 0
 not_zipped = list()
+zip_suffixes = {".zip", ".rar", ".7z"}
 
 choice = simpledialog.askstring(title="User Input", prompt="Select a [parent of parent] or just a [parent] folder?")
 
@@ -55,7 +56,7 @@ else:
     raise Exception("User did not select 'parent' or 'parent of parent'")
 
 for project_folder in PARENT_FOLDER.glob(filter):
-    if project_folder.is_dir():
+    if project_folder.is_dir() and project_folder.suffix not in zip_suffixes:
         project_folder_size = get_dir_size(project_folder)
         if project_folder_size > 4000000000:
             print(f"Contents of {project_folder.name} amount to {project_folder_size} bytes. Very large.")
